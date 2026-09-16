@@ -1,4 +1,4 @@
-name: Keep Supabase Projects Alive
+name: Database Monitor
 
 on:
   schedule:
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  keep-alive:
+  monitor:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping all Supabase projects
+      - name: Check all Supabase projects
         shell: bash
         env:
           PROJECTS_JSON: ${{ secrets.SUPABASE_PROJECTS }}
@@ -23,7 +23,7 @@ jobs:
             KEY=$(echo "$project" | jq -r '.key')
             NAME=$(echo "$project" | jq -r '.name')
 
-            echo "Pinging $NAME..."
+            echo "Checking $NAME..."
 
             if curl --fail-with-body \
               --silent \
